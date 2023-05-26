@@ -1,8 +1,0 @@
-!table
-!version 300
-!charset WindowsCyrillic
-
-Definition Table
-  Type NATIVE Charset "WindowsCyrillic"
-  Fields 1
-    Турово_Вырубки Char (10) ;
