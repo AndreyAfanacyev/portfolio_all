@@ -1,0 +1,29 @@
+version: "2"
+services:
+  node-app:
+    image: "node:18-alpine3.16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+      - HELLO_MESSAGE=Hello from Node
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 8000:8000
+    command: "npm start"
+
+  node-app2:
+    image: "node:18-alpine3.16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - HELLO_MESSAGE=Second Node instance
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 8080:8080
+    command: "npm start"

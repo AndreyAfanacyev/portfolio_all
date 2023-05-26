@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro      
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-le
+    volumes:
+      - certs:/etc/nginx/certs:rw  
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - "nginx-proxy"
+
+  whoami:
+    image: jwilder/whoami
+    environment:
+      - VIRTUAL_HOST=whoami.prikladnyeit.ru
+      - LETSENCRYPT_HOST=whoami.prikladnyeit.ru
+      - LETSENCRYPT_EMAIL=andreyafan20022202@gmail.com
+
+  whoami2:
+    image: jwilder/whoami
+    environment:
+      - VIRTUAL_HOST=whoami2.prikladnyeit.ru
+      - LETSENCRYPT_HOST=whoami2.prikladnyeit.ru
+      - LETSENCRYPT_EMAIL=andreyafan20022202@gmail.com
+
+volumes:
+  conf:
+  vhost:
+  html:
+  certs:
+  acme:
